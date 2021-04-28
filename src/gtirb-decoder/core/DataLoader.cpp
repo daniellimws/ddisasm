@@ -31,6 +31,15 @@
 #define le64toh(x) (x)
 #endif // _WIN32
 
+#ifdef __APPLE__
+#include <libkern/OSByteOrder.h>
+#define be32toh(x) OSSwapBigToHostInt32(x)
+#define le32toh(x) OSSwapLittleToHostInt32(x)
+
+#define be64toh(x) OSSwapBigToHostInt64(x)
+#define le64toh(x) OSSwapLittleToHostInt64(x)
+#endif
+
 #include "../../AuxDataSchema.h"
 
 void DataLoader::operator()(const gtirb::Module& Module, DatalogProgram& Program)

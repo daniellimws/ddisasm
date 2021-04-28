@@ -25,6 +25,18 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
     no_return_pass)
   target_link_options(${PROJECT_NAME} PRIVATE
                       /WHOLEARCHIVE:no_return_pass$<$<CONFIG:Debug>:d>)
+elseif(APPLE)
+  target_link_libraries(
+    ${PROJECT_NAME}
+    ${SYSLIBS}
+    ${Boost_LIBRARIES}
+    gtest
+    gtest_main
+    gtirb
+    gtirb_builder
+    gtirb_decoder
+    scc_pass
+    no_return_pass)
 else()
   target_link_libraries(
     ${PROJECT_NAME}

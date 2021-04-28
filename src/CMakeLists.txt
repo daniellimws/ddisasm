@@ -325,6 +325,10 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
   target_link_options(
     ddisasm PRIVATE /WHOLEARCHIVE:no_return_pass$<$<CONFIG:Debug>:d>
     /WHOLEARCHIVE:function_inference_pass$<$<CONFIG:Debug>:d>)
+elseif(APPLE)
+  target_link_libraries(
+    ddisasm PRIVATE disasm_main scc_pass no_return_pass
+                    function_inference_pass)
 else()
   target_link_libraries(
     ddisasm PRIVATE disasm_main scc_pass -Wl,--whole-archive no_return_pass
@@ -433,6 +437,10 @@ if(BUILD_FUNINFER)
     target_link_options(
       funinfer PRIVATE /WHOLEARCHIVE:no_return_pass$<$<CONFIG:Debug>:d>
       /WHOLEARCHIVE:function_inference_pass$<$<CONFIG:Debug>:d>)
+  elseif(APPLE)
+    target_link_libraries(
+      funinfer PRIVATE no_return_pass
+                       function_inference_pass)
   else()
     target_link_libraries(
       funinfer PRIVATE -Wl,--whole-archive no_return_pass
